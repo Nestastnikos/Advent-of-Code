@@ -1,17 +1,19 @@
 ﻿open System.IO
 
+
 let getSum (i:int) (j:int) (array:int[]) =
   array.[i] + array.[j]
 
+
 let getProduct(i:int) (j:int) (array:int[]) =
   array.[i] * array.[j]
+
 
 let getOperation opcode =
   match opcode with
   | 1 -> getSum
   | 2 -> getProduct
   | _ -> raise (System.ArgumentException("Invalid opcode"))
-
 
 
 let input =
@@ -21,7 +23,7 @@ let input =
   |> Seq.map(fun x -> int x)
   |> Seq.toArray
 
-let run (noun:int) (verb:int) (input:int[]) =
+let run (input:int[]) (noun:int, verb:int) =
   let output = Array.copy(input)
   output.[1] <- noun
   output.[2] <- verb
@@ -35,4 +37,10 @@ let run (noun:int) (verb:int) (input:int[]) =
     position <- position + 4;
   output
 
-printfn "%A" input
+
+let result =
+  Seq.allPairs { 0 .. 99 } { 0 .. 99 }
+  |> Seq.map(fun x -> (x, (run input x).[0]))
+  |> Seq.filter(fun (x,y) -> y = 19690720)
+  |> Seq.map(fun ((noun, verb),y) -> 100 * noun + verb)
+printfn "%A" result
