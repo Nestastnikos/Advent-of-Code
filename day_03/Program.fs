@@ -15,7 +15,6 @@ let wires =
           | 'U' -> (0,1)
           | 'D' -> (0,-1)
           | _ -> raise (ArgumentException("Invalid direction"))
-        let nextLastCoord = x+(length*xStep), y+(length*yStep), d+length
 
         let newMap =
           { 1 .. length }
@@ -29,6 +28,8 @@ let wires =
               acc |> Map.add coord nextDist
             )
             map
+
+        let nextLastCoord = x+(length*xStep), y+(length*yStep), d+length
         (newMap, nextLastCoord)
       )
       (Map([]), (0,0,0))
